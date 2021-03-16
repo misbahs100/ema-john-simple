@@ -1,0 +1,69 @@
+Shop.js = ()
+---------------------------------------
+useState
+- state for product from database, keep them in products
+- state for cart, keep them in cart
+handleAddProduct(product){
+- find sameProduct from the cart by matching key
+- if sameProduct is found, then increase the quantity of sameProduct by one, then add the cart and sameProduct in newCart
+- else increase the quantity of product and add the cart and product in newCart
+- add information in database
+}
+useEffect
+- first of all, get the data from database
+- get the keys of the cart items
+- map through each keys and 
+  - find the product for that key from database
+  - add a quantity property to that product
+- set the products 
+return
+- div> show every product through Product.js
+- div> show cart through Cart.js
+
+
+Product.js = (props will contain one product object)
+---------------------------------------
+return
+
+
+Cart.js = (props will contain the cart array)
+-----------------------------------------
+return
+
+
+
+Review.js
+----------------------------------------
+useState
+- state for cart
+- state for placedOrder
+handlePlaceOrder{
+- set the cart as an empty array
+- process the order from database
+- set the placed order
+}
+handleRemoveItem(productKey){
+- filter the cart through the key to create a new cart where all products except the product with productKey will store
+- set the new cart
+- remove the product from database 
+}
+useEffect
+- first of all, get the data from database
+- get the keys of the cart items
+- map through each keys and 
+  - find the product for that key from database
+  - add a quantity property to that product
+- set the products 
+return
+- div> show every product through Product.js or through ReviewItem.js
+- div> show cart through Cart.js
+
+
+ReviewItem.js = (props will contain one product object)
+-------------------------------------------
+return
+
+
+ProductDetail.js 
+---------------------------------------------
+this component calls the Product.js component to show the detail of one clicked item/product
