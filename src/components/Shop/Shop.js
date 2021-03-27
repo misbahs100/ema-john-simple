@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../../fakeData';
-import fakeData from '../../fakeData';
+// import fakeData from '../../fakeData';
 import { addToDatabaseCart, getDatabaseCart } from '../../utilities/databaseManager';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
@@ -9,8 +9,15 @@ import './Shop.css';
 
 const Shop = () => {
     // const first10 = fakeData.slice(0, 10);
-    const [products, setProducts] = useState(fakeData);
+    const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+
+    // get products from database instead of fakeData
+    useEffect( () => {
+        fetch('http://localhost:5000/products')
+        .then(res => res.json())
+        .then(data => setProducts(data))
+    }, [])
 
     const handleAddProduct = (product) => {
         //    console.log("handle is clicked.", product); 
@@ -36,12 +43,17 @@ const Shop = () => {
     useEffect(() => {
         const savedCart = getDatabaseCart();
         const productKeys = Object.keys(savedCart);
-        const cartProducts = productKeys.map(key => {
-            const product = fakeData.find(pd => pd.key === key);
-            product.quantity = savedCart[key];
-            return product;
+        console.log(products);
+        fetch('http://localhost:5000/productsByKeys', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(productKeys)
         })
-        setCart(cartProducts);
+        .then(res => res.json())
+        .then(data => setCart(data))
+        
     }, [])
 
     return (

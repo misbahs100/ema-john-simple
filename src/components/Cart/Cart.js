@@ -6,7 +6,7 @@ const Cart = (props) => {
     const cart = props.cart;
 
     // item price
-    let total = cart.reduce( (total, product) => total+(product.price * product.quantity), 0);
+    let total = cart.reduce( (total, product) => total+(product.price * product.quantity || 1), 0);
     total = Number(total.toFixed(2));
 
     // shipping
