@@ -19,12 +19,21 @@ if (!firebase.apps.length) {
           email: email,
           photo: photoURL,
           success: true
-        }
+        };
+        setUserToken();  // page will remain same after refreshing.
         return signedUser;
       })
       .catch(err => {
         console.log(err);
       })
+  }
+
+  const setUserToken = () => {
+    firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
+      sessionStorage.setItem('token', idToken);
+    }).catch(function(error) {
+      // Handle error
+    });
   }
 
   export const handleFBSignIn = () => {

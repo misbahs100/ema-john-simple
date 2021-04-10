@@ -11,13 +11,18 @@ const Shop = () => {
     // const first10 = fakeData.slice(0, 10);
     const [products, setProducts] = useState([]);
     const [cart, setCart] = useState([]);
+    const [search, setSearch] = useState('');
 
     // get products from database instead of fakeData
     useEffect( () => {
-        fetch('https://protected-thicket-07134.herokuapp.com/products')
+        fetch('http://localhost:5000/products?search='+search)
         .then(res => res.json())
         .then(data => setProducts(data))
-    }, [])
+    }, [search])
+
+    const handleSearch = event => {
+        setSearch(event.target.value);
+    }
 
     const handleAddProduct = (product) => {
         //    console.log("handle is clicked.", product); 
@@ -59,6 +64,7 @@ const Shop = () => {
     return (
         <div className="twin-container">
             <div className="product-container">
+                <input type="text" onBlur={handleSearch} placeholder="search item"/>
                 {
                     products.map(productIndividual => <Product showAddToCart={true} handleAddProduct={handleAddProduct} product={productIndividual} key={productIndividual.key}></Product>)
                 }
